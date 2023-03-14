@@ -1,0 +1,27 @@
+Objectivos
+Plano de trabalho
+Referências
+Introdução
+Migração de Máquinas Virtuais é um dos aspectos mais importantes para o escalonamento de serviços na Internet. 
+Migração em ambiente real pode ter um custo em tempo e recursos para além disso pode não modelar todos os cenários possível. 
+
+
+Avaliar vários cenários de migração, usando CloudSim Plus como simulador, com diferentes parâmetros: características das Máquinas Virtuais,  características dos hospedeiros, característica dos ‘DataCenter’, condição para disparar uma migração e características das tarefas que  vão  correr nas Máquinas Virtuais. 
+Analisar quando é vantajoso migrar uma Máquina Virtual em vez de inicializar máquina virtual nova.
+Estudar várias soluções para migração e gestão de máquinas virtuais.
+Avaliar qual é melhor algoritmo de acordo com infraestrutura e aplicação. 
+Estado de Arte
+Existem vários simuladores de Cloud como CloudSim, CloudSim Plus, GridSim, GreenCloud, SPECI, etc 
+Baseado trabalho da UBI e IFTO1
+Algoritmo de aprendizado por reforço
+CloudSim Plus tem vantagem ser mais fácil, possível uso de multi-cloud  inter-datacenter e possibilidade de simular migrações.
+
+1) CloudSim Plus: A Cloud Computing Simulation Framework Pursuing Software Engineering Principles for Improved Modularity, Extensibility and Correctness   https://ubibliorum.ubi.pt/handle/10400.6/9224
+2) Azure Centric http://azurecentric.com/2012/10/share-nothing-live-migration-with-hyper-v-2012.html
+
+Figure 1 – Description of Figure 1. Exemplo de uma migração de uma máquina virtual entre dois 'Data Centers' 2.
+CloudSim plus e Migração de Máquinas VirtuaisTiago dos Santos Silva| Inês Dutra
+Faculdade de Ciências da Universidade do Porto
+M:CC
+1
+1
