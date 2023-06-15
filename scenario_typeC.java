@@ -36,6 +36,7 @@ import ch.qos.logback.classic.Level;
 
 
 public class scenario_typeC {
+	public static Prolog prolog= new Prolog();
 	
   public static String description() {
 	  return " Simples  Maquina Virtual habitar uma host num DataCneter.";

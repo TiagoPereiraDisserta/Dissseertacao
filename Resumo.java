@@ -16,6 +16,7 @@ public class Resumo {
 	
 
 	
+	private static double CLOUDLET_CPU_INCREMENT_PER_SECOND = 0.0;
 	private long PosixDate;
 	private static Random random= new Random();
 	
@@ -28,17 +29,56 @@ public class Resumo {
 			"犬子あとへ","犬子","あと","へ",
 			"犬","子あ","とへ",
 			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
-			"牙","酒","з","画"};
+			"牙","酒","з","画","なし","あ","しな","な","し",
+			"くそ","そ","そく","任","天","堂","堂任",
+			"子犬","犬","子","あ","と","へ",
+			"も","よ","ろ","を","ふ","","ら","	や",
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"も","よ","ろ","を","ふ","","ら","	や",
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"ج","ي","س","ص","ق","ر","ش	","ت","","を","ふ","","ら","	や",
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"も","よ","ろ","を","ふ","","ら","	や","ก", "ข","ก ไก่","ฃ ขวด","ฅ คน","จ","ญ","	ญ หญิง","ฎ","ฎ ชฎา","ฐ","ฑ","มณโฑ",
+			
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"も","よ","ろ","を","ふ","","ら","	や",
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"ج","ي","س","ص","ق","ر","ش	","ت","","を","ふ","","ら","	や",
+			"り", "に","か","た","ち","つ","れ","","a","ま","み","め","む",
+			"犬","子","あ","と","へ",
+			"犬子あとへ","犬子","あと","へ","▒","♣","✑","✒","✓","✔","✇",
+			"犬","子あ","とへ",
+			"犬へ","c","d","r","くそ","そ","そく","任","天","くそそ","そく任","天","葡萄牙","葡","萄牙","萄牙",
+			"牙","酒","з","画","なし","א","ב","ג","ו","ז","י","\"י\"","צ","ס‎	","ל","שׁ",
+			"も","よ","ろ","を","ふ","","ら","	や","ก", "ข","ก ไก่"};
 	
 	
 	
-	public static void main(String[] args) {
-		Resumo resumo=new Resumo();
-		
-		resumo.Exportar();
-		System.out.println("Id:\t"+resumo.Id+"\nIDKey:\t"+resumo.IdKey);
-		System.out.println(".!.");
-	}
 	
 	private int Id;
 	private String IdKey;
@@ -47,8 +87,7 @@ public class Resumo {
 	private double HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION;
 	private int  SCHEDULING_INTERVAL;
 	private double CLOUDLET_INITIAL_CPU_PERCENTAGE;
-	private double CLOUDLET_CPU_INCREMENT_PER_SECOND;
-	private int HOST_SEARCH_RETRY_DELAY;
+	private double CLOUDLET_CPU_INCREMENT_P ;
 	private int[][] DC_HOST_PES= {{0,1,2},{2,1,0},{1},{1,2,3,4,5,6,7,8,9}};
 	private int numbesOFHostsPES=0;
 	private int numberOfHost=0;
@@ -64,9 +103,18 @@ public class Resumo {
 	private LocalDateTime now =null;  
     private long ut ;
     private LocalDateTime now2 =null;
-    private long finalPosixDate=-12;
+    private long finalPosixDate=1;
+    private long initTime=0;
+    private long Duration=-2*100000;
  
-
+    public static void main(String[] args) {
+		Resumo resumo=new Resumo();
+		
+		resumo.Exportar();
+		System.out.println("Id:\t"+resumo.Id+"\nIDKey:\t"+resumo.IdKey);
+		System.out.println(".!.");
+	}
+	
 	
 	
 	Resumo(){
@@ -96,9 +144,9 @@ public class Resumo {
 		now =LocalDateTime.now();  
 
 		buffer2=buffer2+dtf.format(now)+";";
-        ut=Instant.now().getEpochSecond();
+        ut=this.initTime;
 		buffer=buffer+ut+";";
-		ut=Instant.now().getEpochSecond();
+		ut=initTime;
 		buffer2=buffer2+ut+";";
 		buffer=buffer+this.type+";";
 		buffer2=buffer2+this.type+";";
@@ -145,17 +193,24 @@ public class Resumo {
 		
 		buffer=buffer+this.createdVms+";";
 		buffer=buffer+this.numberOfMigration;
+		
+		if(this.numberOfMigration>0) {
+			buffer=buffer+"sim; T;";
+		}else {
+			buffer=buffer+"não; F;";
+
+		}
 		System.out.println(buffer);
 		System.out.println("Tentar exportar");
 		try {
-		File myObj = new File(this.IdKey+".csv");
+		File myObj =  new File(this.type+"Type__ "+this.type+" ____"+this.IdKey+".csv");
 	      if (myObj.createNewFile()) {
 	        System.out.println("File created: " + myObj.getName());
 	      } else {
 	        System.out.println("File'"+myObj.getName()+"' already exists.");
 	      }
 	      try {
-	    	  FileWriter myFileWriter= new FileWriter(this.IdKey+".csv");
+	    	  FileWriter myFileWriter= new FileWriter(this.type+"Type__ "+this.type+" ____"+this.IdKey+".csv");
 	    	  try {
 		    	  FileWriter myFileWriter2= new FileWriter("table.csv",true);
 		    	  myFileWriter2.write(buffer+"\n");
@@ -218,12 +273,16 @@ public void setDC_HOST_PES(int[][] DC_HOST_PES){
 	
 }
 
+public int getMigrationsNumber() {
+ return this.numberOfMigration;
+}
+
 public void setVM_PES(int [][] VM_PES) {
 	this.VM_PES=VM_PES;
 }
  
 public void setCLOUDLET_CPU_INCREMENT_PER_SECOND( double CLOUDLET_CPU_INCREMENT_PER_SECOND) {
-	this.CLOUDLET_CPU_INCREMENT_PER_SECOND= CLOUDLET_CPU_INCREMENT_PER_SECOND;;
+	Resumo.CLOUDLET_CPU_INCREMENT_PER_SECOND= CLOUDLET_CPU_INCREMENT_PER_SECOND;
 	
 }
 public void setNumberOfMigration(int migrationsNumber) {
@@ -384,6 +443,9 @@ public void setNumberofVM() {
 	}
 	this.numberOfVM=answer;
 }
+public long getTime() {
+	return this.initTime;
+}
 
 public void setNumberofHost() {
 	int answer=0;
@@ -396,14 +458,18 @@ public void setNumberofHost() {
 	this.numberOfVM=answer;
 }
 
+public void setInitialPosixDate() {
+	this.initTime=this.initTime+Instant.now().getEpochSecond();
+}
+
 public void setExtaPES(int ExtraPES) {
 	this.extraPES=ExtraPES;
 
 }
 
 public void setFinalPOSIXDate() {
-	now2 =LocalDateTime.now();
-	this.finalPosixDate=Instant.now().getEpochSecond();
+	
+	this.finalPosixDate=this.finalPosixDate+Instant.now().getEpochSecond();
 }
 
 public void setInicialDate(LocalDateTime now) {
@@ -411,4 +477,19 @@ public void setInicialDate(LocalDateTime now) {
 	
 	
 }
+
+public Long getEndTime() {
+	return this.finalPosixDate;
+}
+
+public void setDuration() {
+	this.Duration=this.finalPosixDate-this.initTime;
+}
+
+public Long getDuration() {
+	return this.Duration;
+}
+
+
+
 }

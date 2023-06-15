@@ -76,15 +76,37 @@ public class MigrationDateResume {
 		System.out.println(buffer);
 		System.out.println("Tentar exportar");
 		try {
-		File myObj = new File(this.IdKey+".csv");
+		File myObj = new File("# migração nº"+this.index+":\t"+this.beginTime+"||\t "+this.simulationIdkey+"||\t"+this.simulationType+"||\t\t\t"+this.IdKey+".csv");
 	      if (myObj.createNewFile()) {
 	        System.out.println("File created: " + myObj.getName());
 	      } else {
 	        System.out.println("File'"+myObj.getName()+"' already exists.");
 	      }
 	      try {
-	    	  FileWriter myFileWriter= new FileWriter(this.IdKey+".csv");
+	    	  FileWriter myFileWriter= new FileWriter("# migração nº"+this.index+":\t"+this.beginTime+"||\t "+this.simulationIdkey+"||\t"+this.simulationType+"||\t\t\t"+this.IdKey+".csv");
 	    	  try {
+	    		  
+	    		  try {
+	    			  File MigrationsFileObject = new File("MigrationsTable.csv");
+	    			  
+	    			  if(MigrationsFileObject.createNewFile()) {
+	    				  try {
+	    			    	  FileWriter myFileWriter2= new FileWriter("# migração nº"+this.index+":\t"+this.beginTime+"||\t "+this.simulationIdkey+"||\t"+this.simulationType+"||\t\t\t"+this.IdKey+".csv");
+                             myFileWriter2.write(buffer2);
+	    			    	  myFileWriter2.close();
+	    				  }catch(Exception e) {
+	    					  System.out.println(e.getMessage()+"\t\n\t"+e.getLocalizedMessage());
+	    				  }
+	    			  }else{
+	    			        System.out.println("File'"+myObj.getName()+"' already exists.");
+ 
+	    			  }
+	    			  
+	    		  }catch(Exception e) {
+	    			  System.out.println(e.getMessage());
+	    		  }
+	    		  
+	    		  
 		    	  FileWriter myFileWriter2= new FileWriter("table.csv",true);
 		    	  myFileWriter2.write(buffer+"\n");
 		    	 
@@ -121,6 +143,10 @@ public class MigrationDateResume {
 		System.out.println("\n\t # migração nº"+this.index+":\t"+this.beginTime+"||\t "+this.simulationIdkey+"||\t"+this.simulationType+"||\t\t\t"+this.IdKey);
 	}
 
+	
+	public String getId() {
+		return this.IdKey;
+	}
 	 public static String getSha256(String value) {
 	    try{
 	        MessageDigest md = MessageDigest.getInstance("SHA-256");

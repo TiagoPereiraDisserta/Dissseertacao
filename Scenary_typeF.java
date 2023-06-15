@@ -53,8 +53,7 @@ import java.time.format.DateTimeFormatter;
 public  final class Scenary_typeF {
 	
 	
-	
- private Resumo resumo = new Resumo();
+ private static Resumo resumo = new Resumo();
  private int numberOfVMPES=0;
  private int numbesOFHostsPES=0;
  private static Random random = new Random();
@@ -65,7 +64,7 @@ public  final class Scenary_typeF {
  private static  int[][] DC_HOST_PES = {{4, 5}, {8, 8, 8},{1}};
  private static double HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.78-(0.78*0.10)),(0.78+(0.78*0.10)));
  private static final double HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.1-(0.1*0.10)),(0.2+(0.1*0.50)));
-
+ private static Prolog prolog = new Prolog();
  
  public static String description() {
 	  return " Cenario onde distribuição de pes no host e DC é aletório, carateristas da VM é aletorio\n, SCHEDULING_INTERVAL é aletório , carateristas do host é aletorio\n, caracteristas do DC é aletorio, Pes necessarios para VM é aletorio mas semelhrante ao VM, HOST_SEARCH_RETRY_DELAY é aletorio \n "
@@ -114,6 +113,7 @@ public  final class Scenary_typeF {
 
  public static void main(String[] args) {
 	 System.out.println("Starting ... ");
+	 
 	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY HH:mm:ss");  
 	   LocalDateTime now = LocalDateTime.now(); 
 	   System.out.println("Date:"+dtf.format(now));
@@ -141,7 +141,9 @@ public  final class Scenary_typeF {
 	 
 	   now = LocalDateTime.now(); 
 	   System.out.println("Date:"+dtf.format(now));
-	 
+	    resumo.Exportar();
+	    prolog.Export();
+
 	 
  }
  
@@ -155,9 +157,12 @@ public  final class Scenary_typeF {
 	 System.out.println("Starting " + getClass().getSimpleName());
 	 HOST_RAM=configHostsRam();
 	 resumo.setIdKey();
+	 prolog.setIdKey(prolog.getIdkey());
 	 
 	 resumo.setType(Type.F);
+	 prolog.SetType(Type.F);
  	resumo.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
+ 	prolog.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
  	resumo.setHOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION);
  	resumo.setCLOUDLET_INITIAL_CPU_PERCENTAGE(CLOUDLET_INITIAL_CPU_PERCENTAGE);
  	resumo.setSCHEDULING_INTERVAL(SCHEDULING_INTERVAL);
@@ -170,22 +175,30 @@ public  final class Scenary_typeF {
  	
      
     /* createVmsAndCloudlets();*/
+ 	resumo.setInitialPosixDate();
     simulation = new CloudSim();
+    resumo.setFinalPOSIXDate();
     this.datacenterList = createDatacenters();
     this.brokerList = createBrokers();
     createVmsAndCloudlets();
     
-
+    resumo.setInitialPosixDate();
     simulation.start();
+    resumo.setFinalPOSIXDate();
+    resumo.setDuration();
+    prolog.setStartTime(resumo.getTime());
+    prolog.setFinalPOSIXDate(resumo.getEndTime());
+    prolog.setDuration(resumo.getDuration());
     printResults();
     
     
     System.out.println(getClass().getSimpleName() + " finished!");
     resumo.setcreatedVms(createdVms);
     resumo.setNumberOfMigration(migrationsNumber);
+    prolog.setMigrationsNumber(migrationsNumber);
+    prolog.terminet();
     
     
-    resumo.Exportar();
 
      
 	 
@@ -393,6 +406,7 @@ public  final class Scenary_typeF {
  }
  private void startMigration(final VmHostEventInfo info) {
      migrationsNumber++;
+     prolog.setMigration();
  }
  private void printResults() {
      for (final var broker : brokerList) {

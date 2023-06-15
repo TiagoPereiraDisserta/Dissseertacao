@@ -52,7 +52,8 @@ import static java.util.stream.Collectors.*;
 public  final class Scenary_typeD {
 	
 	
- private Resumo resumo= new Resumo();	
+ private Resumo resumo= new Resumo();
+ private static Prolog prolog = new Prolog();
  private int numberOfVMPES=0;
  private int numbesOFHostsPES=0;
  private static Random random = new Random();
@@ -113,6 +114,7 @@ public  final class Scenary_typeD {
 
  public static void main(String[] args) {
 	 System.out.println("Starting ... ");
+	 prolog.init();
 	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY HH:mm:ss");  
 	   LocalDateTime now = LocalDateTime.now();  
 	 
@@ -142,6 +144,7 @@ public  final class Scenary_typeD {
 	  now = LocalDateTime.now();  
 	 
 	System.out.print("Date:"+dtf.format(now));
+	prolog.Export();
 	 
 	 
  }
@@ -149,6 +152,7 @@ public  final class Scenary_typeD {
  public Scenary_typeD(){
 	 Log.setLevel(Level.INFO);
 	 resumo.setType(Type.D);
+	
  	resumo.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
  	resumo.setHOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION);
  	resumo.setCLOUDLET_INITIAL_CPU_PERCENTAGE(CLOUDLET_INITIAL_CPU_PERCENTAGE);
@@ -159,6 +163,8 @@ public  final class Scenary_typeD {
 	resumo.setnumberOfVMPES();
 	resumo.setNumberofHost();
 	resumo.setNumberOfHOSPES();
+	resumo.setIdKey();
+	prolog.setIdKey(resumo.getIdkey());
 	
 	 
 	 System.out.println("Number of VM PES:"+numberOfVMPES+ "||\t Number of Hosts PES:"+numbesOFHostsPES);
@@ -169,8 +175,14 @@ public  final class Scenary_typeD {
 	 
 	 
      
-    
+    resumo.setInitialPosixDate();
+   
     simulation = new CloudSim();
+    resumo.setFinalPOSIXDate();
+    resumo.setDuration();
+    prolog.setFinalPOSIXDate(resumo.getTime());
+    prolog.setFinalPOSIXDate(resumo.getEndTime());
+    prolog.setDuration(resumo.getDuration());
     this.datacenterList = createDatacenters();
     this.brokerList = createBrokers();
     createVmsAndCloudlets();
@@ -183,8 +195,10 @@ public  final class Scenary_typeD {
     resumo.setcreatedVms(createdVms);
     resumo.setNumberOfMigration(migrationsNumber);
     resumo.setNumberOfMigration(migrationsNumber);
+    prolog.setMigrationsNumber(migrationsNumber);
     
     resumo.Exportar();
+    prolog.terminet();
      
 	 
 	 
@@ -351,6 +365,7 @@ public  final class Scenary_typeD {
      broker.removeOnVmsCreatedListener(info.getListener());
  }
  private void startMigration(final VmHostEventInfo info) {
+	 prolog.setMigration();
      migrationsNumber++;
  }
  private void printResults() {

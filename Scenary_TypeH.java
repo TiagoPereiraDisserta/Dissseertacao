@@ -48,7 +48,7 @@ public final class Scenary_TypeH {
     /**
      * @see Datacenter#getSchedulingInterval()
      */
-	
+private static Prolog prolog = new Prolog();
 	
 	
     private static final int  SCHEDULING_INTERVAL = 2;
@@ -62,7 +62,7 @@ public final class Scenary_TypeH {
      * The total number of items define the number of Hosts to create.
      */
     private static final int[][] DC_HOST_PES = {{4, 5}, {8, 8, 8}};
-    Resumo resumo= new Resumo();
+    public static Resumo resumo= new Resumo();
     ArrayList<MigrationDateResume> migrationList = new ArrayList<MigrationDateResume>();
     /**
      * The percentage of host CPU usage that trigger VM migration
@@ -157,14 +157,26 @@ public void setHOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(int  HOST_UNDER
 	}
 
     public static void main(final String[] args) {
+    	resumo.setInitialPosixDate();
         new Scenary_TypeH();
+        resumo.setFinalPOSIXDate();
+        resumo.setDuration();
+        resumo.Exportar();
+        prolog.setDuration(resumo.getDuration());
+        prolog.setFinalPOSIXDate(resumo.getEndTime());
+        prolog.setStartTime(resumo.getTime());
+        prolog.terminet();
+        prolog.Export();
         
     }
 
     private Scenary_TypeH(){
     	
     	resumo.setType(Type.H);
+    	prolog.setIdKey(resumo.getIdkey());
+    	prolog.SetType(Type.H);
         resumo.setTime(LocalDateTime.now());
+        
     	resumo.setIdKey();
     	resumo.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
     	resumo.setHOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION);
@@ -182,6 +194,7 @@ public void setHOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(int  HOST_UNDER
         validateConfiguration();
 
         System.out.println("Starting " + getClass().getSimpleName());
+
         simulation = new CloudSim();
 
         this.datacenterList = createDatacenters();
@@ -191,14 +204,18 @@ public void setHOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(int  HOST_UNDER
         simulation.start();
         resumo.setCLOUDLET_INITIAL_CPU_PERCENTAGE(CLOUDLET_INITIAL_CPU_PERCENTAGE);
         
+        prolog.setDuration(resumo.getDuration());
+        prolog.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
 
         printResults();
         System.out.println(getClass().getSimpleName() + " finished!");
         resumo.setcreatedVms(createdVms);
         resumo.setNumberOfMigration(migrationsNumber);
+        prolog.setMigrationsNumber(migrationsNumber);        
         
         
         resumo.Exportar();
+        prolog.Export();
     }
 
     private void validateConfiguration() {
@@ -349,6 +366,7 @@ public void setHOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(int  HOST_UNDER
      */
     private void startMigration(final VmHostEventInfo info) {
         migrationsNumber++;
+        prolog.setMigration();
     	migrationList.add(new MigrationDateResume(resumo.getIdkey(),migrationsNumber,Type.H));
 
     }

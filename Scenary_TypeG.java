@@ -54,7 +54,7 @@ import java.time.format.DateTimeFormatter;
 public  final class Scenary_TypeG{
 	
 	
- private Resumo resumo;
+ private static Resumo resumo;
  private int numberOfVMPES=0;
  private int numbesOFHostsPES=0;
  private static Random random = new Random();
@@ -87,7 +87,7 @@ public  final class Scenary_TypeG{
  private static final int    HOST_MIPS = random.nextInt(VM_MIPS,VM_MIPS+1000);
  private static  int[] HOST_RAM = {random.nextInt(VM_RAM,VM_RAM+50000), random.nextInt(VM_RAM,VM_RAM+50000), random.nextInt(VM_RAM,VM_RAM+50000)}; 
  private static final int   HOST_STORAGE = random.nextInt(VM_SIZE,1000000+VM_SIZE);
-
+ private static Prolog prolog = new Prolog();
  
  
  private static  int[][] VM_PES = {{3, 2, 2}, {4, 4, 4}};
@@ -115,6 +115,7 @@ public  final class Scenary_TypeG{
 
  public static void main(String[] args) {
 	 System.out.println("Starting ... ");
+	 resumo=new Resumo();
 	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY HH:mm:ss");  
 	   LocalDateTime now = LocalDateTime.now(); 
 	   System.out.println("Date:"+dtf.format(now));
@@ -142,16 +143,22 @@ public  final class Scenary_TypeG{
 	 
 	   now = LocalDateTime.now(); 
 	   System.out.println("Date:"+dtf.format(now));
-	 
+	   resumo.Exportar();
+	   prolog.terminet();
+	   prolog.Export();
+	   
 	 
  }
  
  public Scenary_TypeG(){
 	 Log.setLevel(Level.INFO);
 	 this.distributionOfPESforVMandHost();
-	 resumo=new Resumo();
+	 
 	 resumo.setIdKey();
 	 resumo.setType(Type.G);
+	 prolog.SetType(Type.G);
+	 prolog.setIdKey(resumo.getIdkey());
+	
  	resumo.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
  	resumo.setHOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION);
  	resumo.setCLOUDLET_INITIAL_CPU_PERCENTAGE(CLOUDLET_INITIAL_CPU_PERCENTAGE);
@@ -177,9 +184,14 @@ public  final class Scenary_TypeG{
     this.datacenterList = createDatacenters();
     this.brokerList = createBrokers();
     createVmsAndCloudlets();
-    
-
+    prolog.setExtaPES((this.numbesOFHostsPES-this.numberOfVMPES));
+    resumo.setInitialPosixDate();
     simulation.start();
+    resumo.setFinalPOSIXDate();
+    resumo.setDuration();
+    prolog.setStartTime(resumo.getTime());
+    prolog.setFinalPOSIXDate(resumo.getEndTime());
+    prolog.setDuration(resumo.getDuration());
     printResults();
     
     System.out.println(getClass().getSimpleName() + " finished!");
@@ -187,8 +199,10 @@ public  final class Scenary_TypeG{
     resumo.setcreatedVms(createdVms);
     resumo.setNumberOfMigration(migrationsNumber);
     resumo.setNumberOfMigration(migrationsNumber);
+    prolog.setMigrationsNumber(migrationsNumber);
+    prolog.setMigrationsNumber(migrationsNumber);
     
-    resumo.Exportar();
+    
     
 	 
 	 
@@ -395,6 +409,7 @@ public  final class Scenary_TypeG{
  }
  private void startMigration(final VmHostEventInfo info) {
      migrationsNumber++;
+     prolog.setMigration();
  }
  private void printResults() {
      for (final var broker : brokerList) {

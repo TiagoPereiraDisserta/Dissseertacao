@@ -56,8 +56,7 @@ public  final class scenario_typeB {
 	
 	
  private static Resumo resumo;	
- ArrayList<MigrationDateResume> migrationList = new ArrayList<MigrationDateResume>();
-
+//private static MigrationDateResumoCollection migrationsList = new MigrationDateResumoCollection();
  private int numberOfVMPES=0;
  private int numbesOFHostsPES=0;
  private static Random random = new Random();
@@ -66,8 +65,8 @@ public  final class scenario_typeB {
  private int numberOfLines = random.nextInt(2,6);
  private static final int  SCHEDULING_INTERVAL = random.nextInt(0,4);
  private static  int[][] DC_HOST_PES = {{4, 5}, {8, 8, 8}};
- private static double HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.78-(0.78*0.10)),(0.78+(0.78*0.10)));
- private static final double HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.1-(0.1*0.10)),(0.2+(0.1*0.50)));
+ private static double HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.78-(0.78*0.50)),(0.78+(0.78*0.50)));
+ private static final double HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION = random.nextDouble((0.1-(0.1*0.50)),(0.1+(0.1*0.50)));
 
  
  public static String description() {
@@ -103,9 +102,9 @@ public  final class scenario_typeB {
  private static final long   CLOUDLET_OUTPUT_SIZE = 300;
  
  
- private static final double CLOUDLET_INITIAL_CPU_PERCENTAGE = random.nextDouble(0.5-(0.5*0.25),0.5+(0.5*0.25));
+ private static final double CLOUDLET_INITIAL_CPU_PERCENTAGE = random.nextDouble(0.75-(0.7*0.50),0.75+(0.75*0.50));
 
- private static final double CLOUDLET_CPU_INCREMENT_PER_SECOND = random.nextDouble(0.05-(0.05*0.0010),0.05+(0.05*0.0010));
+ private static final double CLOUDLET_CPU_INCREMENT_PER_SECOND = random.nextDouble(0.5-(0.5*0.0010),0.5+(0.5*0.0010));
 
  private  List<Datacenter> datacenterList;
 
@@ -113,24 +112,28 @@ public  final class scenario_typeB {
  private int createdVms;
  private int createdCloudlets;
  private int createdHosts;
+ private static  Prolog prolog=null;
  
 
 
  public static void main(String[] args) {
+	 
 	 System.out.println("Starting ... ");
-	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY HH:mm:ss");  
+	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("D/MM/YYYY HH:mm:ss");  
 	   LocalDateTime now = LocalDateTime.now(); 
 	   System.out.println("Date:"+dtf.format(now));
-	
+	  prolog=new Prolog();
 	 System.out.println("HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION : "+HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION+"%");
 	 System.out.println("CLOUDLET_INITIAL_CPU_PERCENTAGE : "+CLOUDLET_INITIAL_CPU_PERCENTAGE+"%");
 	 System.out.println("CLOUDLET_CPU_INCREMENT_PER_SECOND :"+  CLOUDLET_CPU_INCREMENT_PER_SECOND );
      System.out.println("HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION: "+HOST_UNDER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION+"%");
      resumo=new Resumo();
+     resumo.setInitialPosixDate();
      resumo.setType(Type.B);
      resumo.setTime(LocalDateTime.now());
-     
+     prolog.SetType(Type.B);
      resumo.setIdKey();
+     prolog.setIdKey(resumo.getIdkey());
  	resumo.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
  	resumo.setHOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION(HOST_OVER_UTILIZATION_THRESHOLD_FOR_VM_MIGRATION);
  	resumo.setCLOUDLET_INITIAL_CPU_PERCENTAGE(CLOUDLET_INITIAL_CPU_PERCENTAGE);
@@ -155,10 +158,24 @@ public  final class scenario_typeB {
   
      System.out.println();
      System.out.println();
+
 	 new scenario_typeB();
+
+	 
 	 
 	   now = LocalDateTime.now(); 
+	   
+	/*migrationsList.ExportCollection();*/
+
 	   System.out.println("Date:"+dtf.format(now));
+	   resumo.setFinalPOSIXDate();
+	    resumo.setDuration();
+	   resumo.Exportar();
+	    prolog.setDuration(resumo.getDuration());
+prolog.setFinalPOSIXDate(resumo.getEndTime());
+prolog.setStartTime(resumo.getTime());
+	   prolog.terminet();
+	     prolog.Export();
 	 
 	 
  }
@@ -166,7 +183,8 @@ public  final class scenario_typeB {
  public scenario_typeB(){
 	 Log.setLevel(Level.INFO);
 	 this.distributionOfPESforVMandHost();
-	 
+	 /*migrationsList.init();*/
+
 	 System.out.println("Number of VM PES:"+numberOfVMPES+ "||\t Number of Hosts PES:"+numbesOFHostsPES);
 	 System.out.println("Extra PES: "+(this.numbesOFHostsPES-this.numberOfVMPES));
 	 resumo.setExtaPES((this.numbesOFHostsPES-this.numberOfVMPES));
@@ -176,28 +194,31 @@ public  final class scenario_typeB {
 	 
      
     /* createVmsAndCloudlets();*/
+	    createVmsAndCloudlets();
+
     simulation = new CloudSim();
     this.datacenterList = createDatacenters();
     this.brokerList = createBrokers();
-    createVmsAndCloudlets();
-    
-
+   
     simulation.start();
+    
+    prolog.setDuration(resumo.getDuration());
+    
     printResults();
+    
     
     System.out.println(getClass().getSimpleName() + " finished!");
     resumo.setNumberOfMigration(migrationsNumber);
 resumo.setcreatedVms(createdVms);
-     resumo.Exportar();
-     if(migrationList.isEmpty()==false ) {
-    	 for(int i=0;i<migrationList.size();i++) {
-    		 System.out.println(i);
-    		 /*this.migrationList.get(i).Exportar();*/
-    		 
-    	 }
-     }else{
-    	 
-     }
+resumo.setNumberOfMigration(migrationsNumber);
+prolog.setMigrationsNumber(resumo.getMigrationsNumber());
+prolog.setCLOUDLET_CPU_INCREMENT_PER_SECOND(CLOUDLET_CPU_INCREMENT_PER_SECOND);
+	prolog.setMigrationsNumber(resumo.getMigrationsNumber());
+
+prolog.terminet();
+
+    
+     
 	 
 
  }
@@ -403,10 +424,8 @@ resumo.setcreatedVms(createdVms);
  }
  private void startMigration(final VmHostEventInfo info) {
      migrationsNumber++;
-	 migrationList.add(new MigrationDateResume(resumo.getIdkey(),migrationsNumber,Type.B));
-     MigrationDateResume actualMigration=migrationList.get(0);
-     actualMigration.setBeginTime();
-     actualMigration.setIdKey();
+     prolog.setMigration();
+	 /*migrationsList.addAndInit(resumo.getIdkey(),Type.B,migrationsList.getSize()); */
      
  }
  private void printResults() {

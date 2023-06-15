@@ -50,8 +50,7 @@ import static java.util.stream.Collectors.*;
 
 public  final class Scenary_typeE {
 	
-	
-	
+ private static Prolog prolog= new Prolog();	
  private int numberOfVMPES=0;
  private static  int HOST_SEARCH_RETRY_DELAY = 10;
  private static Resumo resumo;
@@ -161,7 +160,10 @@ public  final class Scenary_typeE {
  
  public Scenary_typeE(){
 	 Log.setLevel(Level.INFO);
-	
+	resumo.setIdKey();
+    prolog.init();
+    prolog.setIdKey(resumo.getIdkey());
+    
 	 
 	 System.out.println("Number of VM PES:"+numberOfVMPES+ "||\t Number of Hosts PES:"+numbesOFHostsPES);
 	 System.out.println("Extra PES: "+(this.numbesOFHostsPES-this.numberOfVMPES));
@@ -177,8 +179,14 @@ public  final class Scenary_typeE {
     this.brokerList = createBrokers();
     createVmsAndCloudlets();
     
-
+    resumo.setInitialPosixDate();
     simulation.start();
+    resumo.setFinalPOSIXDate();
+    resumo.setDuration();
+    prolog.setStartTime(resumo.getTime());
+    prolog.setFinalPOSIXDate(resumo.getEndTime());
+    prolog.setDuration(resumo.getDuration());
+    
     printResults();
     
     System.out.println(getClass().getSimpleName() + " finished!");
